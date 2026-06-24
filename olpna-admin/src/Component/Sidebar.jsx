@@ -6,13 +6,15 @@ import Box from '@mui/material/Box';
 import { FaHome } from "react-icons/fa";
 import { RiGraduationCapFill } from "react-icons/ri";
 import { IoPersonSharp } from "react-icons/io5";
+import { TiUserAdd } from "react-icons/ti";
+
 
 
 import Addcourses from '../Pages/Addcourses';
 import Allcourse from '../Pages/Allcourse';
 import Allprofessor from '../Pages/Allprofessor';
 import Addprofessor from '../Pages/Addprofessor';
-
+import Users from '../Pages/Users';
 
 
 
@@ -112,8 +114,8 @@ export default function Sidebar() {
 
          <Tab label={<div className="flex items-center gap-2 text-[16px]">
                   
-                   
-                  <span></span>
+                   <TiUserAdd  className='text-xl'/>
+                  <span>All Users</span>
                   </div>} 
         {...a11yProps(3)} 
          sx={{color:"white",fontWeight: "bold",textTransform: "none",
@@ -175,7 +177,7 @@ export default function Sidebar() {
 
 
       <TabPanel value={value} index={3}>
-       
+          <Users/>
       </TabPanel>
 
 
