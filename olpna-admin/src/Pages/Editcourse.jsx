@@ -1,60 +1,74 @@
-import React, { useState } from "react";
-
-import { AiFillEdit } from "react-icons/ai";
-
-import { MdDelete } from "react-icons/md";
-
-import axios from 'axios';
+import { darken } from "@mui/material/styles";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 
 
 
-function Addcourse(){
+function Editcourse(){
+
+    const { id } = useParams();
+
+    const[course , setCourse]=useState([]);
 
 
-    const[course , setCourse]=useState({
+    useEffect(()=>{
+        fetchcourse();
+    },[]);
 
-        courseName:"",
-        courseDetail:"",
-        coursePrice:"",
-        student:"",
-        courseDuration:"",
-        courseNumber:"",
-        courseDeadline:"",
-        courseProfessor:"",
-        lectures:"",
-        language:"",
-        courseImg:"",
 
-    });
-
-    const handleChange = (e)=>{
-        setCourse({
-            ...course,[e.target.name]: e.target.value
-        })
-    }
-
-    const handleSubmit = async (e)=>{
-        e.preventDefault()
+      const fetchcourse = async()=>{
 
         try{
-            const formData = new FormData();
 
-            for(let key in course){
-                formData.append(key , course[key]);
-            }
+            const res = await axios.get(`http://localhost:9000/course/${id}` ,course)
 
-            await axios.post("http://localhost:9000/course" , formData);
-
-            alert("course add suceessfull")
+            setCourse(res.data);
 
         }catch(err){
-            console.log(err.response?.data || err.msg)
-
-            alert("error add course");
+            console.log(err)
         }
-    }
 
+      };   
+
+
+
+
+
+
+      const handleChange = (e)=>{
+        setCourse({
+              ...course,[e.target.name]:e.target.value  
+        });
+      };
+
+      
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+
+        try {
+            const formData = new FormData();
+
+            for (let key in course) {
+                formData.append(key, course[key]);
+            }
+
+            await axios.patch(`http://localhost:9000/editcourse/${id}`,formData,
+      
+                {
+                    headers: {"Content-Type": "multipart/form-data",},
+  
+                }
+            );
+
+            alert("course successfully update");
+        } catch (err) {
+                    console.log(err);
+                    alert("course update error");
+                }
+        };
+    
 
 
 
@@ -63,22 +77,12 @@ function Addcourse(){
 return(
     <>
 
-    <form onSubmit={handleSubmit}>
-
         <div className="flex w-full justify-between items-center h-[60px] shadow-md p-5"> 
-            <h1 className="text-xl font-semibold text-orange-500">Add Courses</h1>
+            <h1 className="text-xl font-semibold text-orange-500">Edit Courses</h1>
+        </div> 
 
-            <span className="flex gap-8  items-center">
 
-                <button type="button" className="w-[120px] h-[40px] bg-orange-500 text-white rounded-sm font-semibold hover:bg-sky-900 cursor-pointer duration-500">Add Course</button>
-
-                <AiFillEdit className="text-sky-900 shadow-lg text-2xl cursor-pointer"/>
-
-                <MdDelete className="text-sky-900 shadow-lg text-2xl cursor-pointer"/>
-            </span>    
-
-        </div>   
-
+    <form onSubmit={handleSubmit}>
 
         <div className="w-full mt-8 p-5">
 
@@ -152,10 +156,8 @@ return(
 
     </form>
 
-
-
-
     </>
 )
 }
-export default Addcourse;
+
+export default Editcourse;

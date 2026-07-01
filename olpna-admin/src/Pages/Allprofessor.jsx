@@ -1,12 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
-
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 function Allprofessor(){
+
+    const[professor , setProfessor]=useState([]);
+
+    
+   useEffect(()=>{
+        fetchprofessor()
+   },[]);
+
+
+   const fetchprofessor = async()=>{
+
+        try{
+            const res = await axios.get("http://localhost:9000/getprofessor" , professor)
+
+            setProfessor(res.data);
+
+        }catch(err){
+            console.log(err)
+        }
+
+   }
+
+   const handleDelete =async(id)=>{
+
+        try{
+            await axios.delete(`http://localhost:9000/deleteprofessor/${id}`);
+
+            alert("professor delete")
+
+            fetchprofessor();
+        }catch(err){
+            console.log(err)
+        }
+
+   }
+
+
+
+
+
 return(
     <>
 
@@ -62,52 +103,64 @@ return(
         </div>
 
 
-        <div className="w-full flex items-center mt-2 justify-between">
+        {professor.map((item)=>{
+
+        return(
+
+
+        <div key={item._id} className="w-full flex items-center mt-2 justify-between">
 
             <div className="w-[7%] h-[50px] text-center">
-                <img src="/c1.png" alt="" className="w-[70%]"/>
+                <img src={`http://localhost:9000/uploads/${item.professorImg}`} alt={item.professorImg} className="w-full h-full"/>
             </div>
 
 
             <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Karan Sharma</p>
+                <p className="text-gray-600 ">{item.name}</p>
             </div>
 
              <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Web designer</p>
+                <p className="text-gray-600 ">{item.department}</p>
             </div>
 
             <div className="w-[10%] h-[50px] text-center">
-                <p className="text-gray-600 ">Male</p>
+                <p className="text-gray-600 ">{item.gender}</p>
             </div>
 
             <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Computer Science</p>
+                <p className="text-gray-600 ">{item.education}</p>
             </div>
 
             <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Apex Univercity</p>
+                <p className="text-gray-600 ">{item.univercity}</p>
             </div>
 
             <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Web designer</p>
+                <p className="text-gray-600 ">{item.experience}</p>
             </div>
 
             <div className="w-[12%] h-[50px] text-center">
-                <p className="text-gray-600 ">Professinal designer</p>
+                <p className="text-gray-600 ">{item.experienceUrl}</p>
             </div>
 
             <div className="w-[10%] h-[50px] text-center flex justify-between">
-                <AiFillEdit className="text-orange-500 shadow-lg text-2xl cursor-pointer"/>
-                <MdDelete className="text-red-700 shadow-lg text-2xl cursor-pointer"/>
 
-               <a href="/professorprofile"> 
+            <Link to={`/Editprofessor/${item._id}`}>     
+                <AiFillEdit className="text-orange-500 shadow-lg text-2xl cursor-pointer"/>
+            </Link>    
+                <MdDelete onClick={()=>handleDelete(item._id)} className="text-red-700 shadow-lg text-2xl cursor-pointer"/>
+
+            <Link to={`/professorprofile/${item._id}`}>
                 <LuEye className="text-sky-900 shadow-lg text-2xl cursor-pointer"/>
-                </a>
+             </Link>   
 
             </div>
 
         </div>
+
+      )          
+
+      })}      
 
 
     </>

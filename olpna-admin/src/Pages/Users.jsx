@@ -95,8 +95,9 @@ return(
 
                             <td className="flex items-center">
 
-                             <Link to={`/edit/${item._id}`}>  
-                                <AiFillEdit className="text-orange-500 shadow-lg text-2xl cursor-pointer"/></Link>
+                            <Link to={`/edit/${item._id}`}>  
+                            <AiFillEdit className="text-orange-500 shadow-lg text-2xl cursor-pointer"/></Link>
+                                
                                 <MdDelete
                                 onClick={() => handleDelete(item._id)}
                                  className="text-red-700 shadow-lg text-2xl cursor-pointer"/>

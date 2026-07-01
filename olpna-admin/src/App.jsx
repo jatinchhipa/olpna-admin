@@ -8,6 +8,8 @@ import Allprofessor from "./Pages/Allprofessor";
 import Addprofessor from "./Pages/Addprofessor";
 import Professorprofile from "./Pages/Professorprofile";
 import Edituser from "./Pages/Edituser";
+import Editcourse from "./Pages/Editcourse";
+import Editprofessor from "./Pages/Editprofessor";
 
 
 function App() {
@@ -24,8 +26,10 @@ function App() {
           <Route path="/addcourse" element={<Addcourse/>}/>
           <Route path="/allprofessor" element={<Allprofessor/>}/>
           <Route path="/addprofessor" element={<Addprofessor/>}/>
-          <Route path="/professorprofile" element={<Professorprofile/>}/>
+          <Route path="/professorprofile/:id" element={<Professorprofile/>}/>
           <Route path="/edit/:id" element={<Edituser/>}/>
+          <Route path="/editcourse/:id" element={<Editcourse/>}/>
+          <Route path="/editprofessor/:id" element={<Editprofessor/>}/>
 
       </Routes>
      
